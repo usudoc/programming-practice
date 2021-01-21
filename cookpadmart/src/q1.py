@@ -19,49 +19,27 @@ Q1
 def main(input_dict):
     truck_list = [[], [], []]  # トラックの積載箱IDリスト
     weight_list = [0, 0, 0]  # トラックの積載重量状態リスト
-    print(input_dict)
 
-    for key, value in (input_dict):
-        # 全てのトラックに順当に積載する
+    for i, (key, value) in enumerate(input_dict.items()):
+        # 最初は全てのトラックに順当に積載する
         if i < 3:
-            print(input_dict[i+1])
-            weight_list[i] += input_dict[i+1]
-            truck_list[i].append(i)
+            weight_list[i] += int(value)
+            truck_list[i].append(int(key))
         # 3つ全てのトラックに積載し終わった場合
         else:
             lightest_idx = weight_list.index(min(weight_list))  # 最も積載重量が軽いトラックを取得
-            weight_list[lightest_idx] += input_dict[i+1]  # 重量を追加
-            truck_list[lightest_idx].append(i)
+            weight_list[lightest_idx] += int(value)  # 重量を追加
+            truck_list[lightest_idx].append(int(key))
 
+    # 積み終わった荷物を標準出力
     for i in range(len(truck_list)):
-        print('truck_', i, ':', truck_list[i])
-
-    # for i in range(len(input_dict)):
-    #     # 全てのトラックに順当に積載する
-    #     if i < 3:
-    #         print(input_dict[i+1])
-    #         weight_list[i] += input_dict[i+1]
-    #         truck_list[i].append(i)
-    #     # 3つ全てのトラックに積載し終わった場合
-    #     else:
-    #         lightest_idx = weight_list.index(min(weight_list))  # 最も積載重量が軽いトラックを取得
-    #         weight_list[lightest_idx] += input_dict[i+1]  # 重量を追加
-    #         truck_list[lightest_idx].append(i)
-    #
-    # for i in range(len(truck_list)):
-    #     print('truck_', i, ':', truck_list[i])
-
-
+        print('truck_{}:'.format(i+1), end='')
+        print(*truck_list[i], sep=',')
 
 
 if __name__ == '__main__':
     input_dict = {}
     input_list = input().split()  # 1:50 2:30 3:40 4:10
-    print(input_list)
     input_list = [str.strip().split(':') for i, str in enumerate(input_list)]
-    print(input_list)
     input_dict = dict((input_list))
-    print(input_dict)
-    print(len(input_dict))
-    print(input_dict['1'])
     main(input_dict)
